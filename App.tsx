@@ -9,29 +9,24 @@ if (__DEV__) {
 }
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, StyleSheet, Text} from 'react-native';
-import {requestUserPermission} from './utils/notificationshelper';
+import {
+  notificationListener,
+  requestUserPermission,
+} from './utils/notificationshelper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function App(): JSX.Element {
-  const [token, setToken] = useState('');
   useEffect(() => {
     requestUserPermission();
-    getFcmToken();
+    notificationListener();
   }, []);
 
-  const getFcmToken = async () => {
-    const token = await AsyncStorage.getItem('fcmToken');
-    if (token) {
-      setToken(token);
-    }
-  };
 
   return (
     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center'}}>
       <Text style={{alignItems: 'center', justifyContent: 'center'}}>
         Notifications
       </Text>
-      <Text>{token}</Text>
     </SafeAreaView>
   );
 }
